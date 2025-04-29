@@ -1,0 +1,19 @@
+# Archivos de configuración local
+appsettings.Development.json
+appsettings.*.json
+
+# Archivos generados por Visual Studio
+.vs/
+.vscode/
+.idea/
+
+# Archivos de build
+bin/
+obj/
+
+# Archivos de logs
+logs/
+*.log
+
+# Otros archivos temporales
+*~
