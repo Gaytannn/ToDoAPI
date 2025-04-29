@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using ToDoAPI.Interfaces;
+using ToDoAPI.Models.Mapper;
 using ToDoAPI.Models.Request;
 using ToDoAPI.Sevices;
 
@@ -10,20 +14,31 @@ namespace ToDoAPI.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-        private readonly TasksCaseUse _tasksCaseUse;
+        private readonly ITaskRepository _repository;
+        private readonly IUserRepository _repositoryUser;
+     
 
-        public TaskController(TasksCaseUse tasksCaseUse)
+        public TaskController(ITaskRepository repository, IUserRepository repositoryUser)
         {
-            _tasksCaseUse = tasksCaseUse;
+            _repository = repository;
+            _repositoryUser = repositoryUser;
         }
 
+
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> Create(TaskItemRequest request)
         {
             try
             {
 
-                await _tasksCaseUse.AddAsync(request);
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier);
+
+                var newTask = request.ToTaskItem();
+
+                newTask.UserId = Guid.Parse(userId!.Value);
+
+                await _repository.AddAsync(newTask);
 
                 return Ok();
             }
@@ -33,6 +48,28 @@ namespace ToDoAPI.Controllers
                 return BadRequest();
             }
 
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier);
+
+                var Id = Guid.Parse(userId!.Value);
+
+                var tasks = await _repository.GetAllByUser(Id);
+
+                return Ok(tasks);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest();
+            }
         }
 
     }

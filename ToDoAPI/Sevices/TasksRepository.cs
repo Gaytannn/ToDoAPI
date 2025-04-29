@@ -1,4 +1,5 @@
-﻿using ToDoAPI.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ToDoAPI.Data;
 using ToDoAPI.Interfaces;
 using ToDoAPI.Models;
 using ToDoAPI.Models.Request;
@@ -32,6 +33,14 @@ public class TasksRepository :ITaskRepository
     public Task<IReadOnlyList<TaskItem>> GetAllAsync(int? offset = null, int? skip = null)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<IReadOnlyList<TaskItem>> GetAllByUser(Guid Id)
+    {
+
+       var response = await _context.Tasks.ToListAsync();
+
+       return await _context.Tasks.Include(t=>t.User).Where(t=>t.UserId==Id).ToListAsync();
     }
 
     public Task<TaskItem?> GetByIdAsync(Guid id)

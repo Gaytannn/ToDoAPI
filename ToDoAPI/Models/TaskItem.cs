@@ -1,8 +1,10 @@
-﻿namespace ToDoAPI.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace ToDoAPI.Models;
 
 public class TaskItem
 {
-    public Guid Id { get; set; } = new Guid();
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public Status Status { get; set; }
@@ -10,7 +12,9 @@ public class TaskItem
     public DateTime CreatedAt { get; set; }
     public bool IsDeleted { get; set; }
     public Guid UserId { get; set; }
-    public virtual User User { get; set; } = new();
+
+    [JsonIgnore]
+    public virtual User? User { get; set; } 
 }
 
 
