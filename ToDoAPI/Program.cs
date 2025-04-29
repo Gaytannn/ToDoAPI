@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using ToDoAPI.Data;
-using ToDoAPI.Interfaces;
 using ToDoAPI.Sevices;
 
 var builder = WebApplication.CreateBuilder(args);
