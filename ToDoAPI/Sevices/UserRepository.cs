@@ -1,4 +1,6 @@
-﻿using ToDoAPI.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata.Ecma335;
+using ToDoAPI.Data;
 using ToDoAPI.Interfaces;
 using ToDoAPI.Models;
 
@@ -27,14 +29,19 @@ public class UserRepository : IUserRepository
         throw new NotImplementedException();
     }
 
-    public Task<IReadOnlyList<User>> GetAllAsync(int? offset = null, int? skip = null)
+    public async Task<IReadOnlyList<User>> GetAllAsync(int? offset = null, int? skip = null)
     {
-        throw new NotImplementedException();
+       return await _context.Users.ToListAsync();
     }
 
     public Task<User?> GetByIdAsync(Guid id)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<User?> GetByUsernameAsync(string username)
+    {
+       return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
     }
 
     public Task<Guid> UpdateAsync(User entity)
