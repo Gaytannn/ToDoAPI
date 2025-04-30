@@ -1,6 +1,7 @@
 # Archivos de configuración local
 appsettings.Development.json
 appsettings.*.json
+ToDoAPI/appsettings.json
 
 # Archivos generados por Visual Studio
 .vs/
