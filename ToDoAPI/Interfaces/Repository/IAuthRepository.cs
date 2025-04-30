@@ -1,6 +1,6 @@
-﻿using ToDoAPI.Models;
+﻿using ToDoAPI.Entities;
 
-namespace ToDoAPI.Interfaces;
+namespace ToDoAPI.Interfaces.Repository;
 
 public interface IAuthRepository
 {

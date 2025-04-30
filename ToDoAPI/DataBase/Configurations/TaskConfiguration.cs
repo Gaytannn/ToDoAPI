@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ToDoAPI.Models;
+using ToDoAPI.Entities;
+
 namespace ToDoAPI.Data.Configurations;
 
 public class TaskConfiguration : IEntityTypeConfiguration<TaskItem>

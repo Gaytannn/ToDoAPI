@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
-using ToDoAPI.Interfaces;
+using ToDoAPI.Interfaces.Services;
 
-namespace ToDoAPI.Sevices;
+namespace ToDoAPI.Sevices.PasswordHasher;
 
 public class PasswordHasherService : IPasswordHasherService
 {

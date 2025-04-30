@@ -1,7 +1,7 @@
-﻿using ToDoAPI.Interfaces.Abstractions;
-using ToDoAPI.Models;
+﻿using ToDoAPI.Entities;
+using ToDoAPI.Interfaces.Abstractions;
 
-namespace ToDoAPI.Interfaces;
+namespace ToDoAPI.Interfaces.Repository;
 
 public interface ITaskRepository: IRepository<TaskItem,Guid>
 {

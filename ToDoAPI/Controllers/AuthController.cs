@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ToDoAPI.Interfaces;
+using ToDoAPI.Interfaces.Repository;
+using ToDoAPI.Interfaces.Services;
 using ToDoAPI.Models.Request;
 
 namespace ToDoAPI.Controllers
@@ -20,7 +21,7 @@ namespace ToDoAPI.Controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] CredentialsRequest request)
+        public async Task<ActionResult> Login([FromBody] CredentialsRequest request)
         {
 
             if (request == null || string.IsNullOrWhiteSpace(request.User) || string.IsNullOrWhiteSpace(request.Password))

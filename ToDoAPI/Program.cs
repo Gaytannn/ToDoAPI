@@ -4,8 +4,12 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
 using ToDoAPI.Data;
-using ToDoAPI.Interfaces;
+using ToDoAPI.Interfaces.Repository;
+using ToDoAPI.Interfaces.Services;
 using ToDoAPI.Sevices;
+using ToDoAPI.Sevices.Auth;
+using ToDoAPI.Sevices.JWT;
+using ToDoAPI.Sevices.PasswordHasher;
 
 var builder = WebApplication.CreateBuilder(args);
 

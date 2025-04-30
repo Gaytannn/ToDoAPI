@@ -2,9 +2,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using ToDoAPI.Interfaces;
+using ToDoAPI.Interfaces.Services;
 
-namespace ToDoAPI.Sevices;
+namespace ToDoAPI.Sevices.JWT;
 
 public class JwtTokenService:IJwtTokenService
 {

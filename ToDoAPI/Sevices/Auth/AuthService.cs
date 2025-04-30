@@ -1,7 +1,8 @@
 ﻿using ToDoAPI.Data;
-using ToDoAPI.Interfaces;
+using ToDoAPI.Interfaces.Repository;
+using ToDoAPI.Interfaces.Services;
 
-namespace ToDoAPI.Sevices;
+namespace ToDoAPI.Sevices.Auth;
 
 public class AuthService : IAuthService
 {

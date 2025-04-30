@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
 using ToDoAPI.Data;
-using ToDoAPI.Interfaces;
-using ToDoAPI.Models;
+using ToDoAPI.Entities;
+using ToDoAPI.Interfaces.Repository;
 
 namespace ToDoAPI.Sevices;
 

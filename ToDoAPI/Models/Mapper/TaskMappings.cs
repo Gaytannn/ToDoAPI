@@ -1,8 +1,9 @@
-﻿using ToDoAPI.Models.Request;
+﻿using ToDoAPI.Entities;
+using ToDoAPI.Models.Request;
 
 namespace ToDoAPI.Models.Mapper;
 
-public static class TaskProfile
+public static class TaskMappings
 {
 
     public static TaskItem ToTaskItem(this TaskItemRequest request)

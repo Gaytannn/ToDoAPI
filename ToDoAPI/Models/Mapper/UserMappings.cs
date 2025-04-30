@@ -1,8 +1,9 @@
-﻿using ToDoAPI.Models.Request;
+﻿using ToDoAPI.Entities;
+using ToDoAPI.Models.Request;
 
 namespace ToDoAPI.Models.Mapper;
 
-public static class UserProfile
+public static class UserMappings
 {
     public static User ToUser(this UserRequest request)
     {

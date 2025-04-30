@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ToDoAPI.Data;
-using ToDoAPI.Interfaces;
-using ToDoAPI.Models;
+using ToDoAPI.Entities;
+using ToDoAPI.Interfaces.Repository;
 using ToDoAPI.Models.Request;
 
 namespace ToDoAPI.Sevices;

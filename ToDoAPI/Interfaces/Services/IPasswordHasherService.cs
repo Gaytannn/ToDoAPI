@@ -1,4 +1,4 @@
-﻿namespace ToDoAPI.Interfaces;
+﻿namespace ToDoAPI.Interfaces.Services;
 
 public interface IPasswordHasherService
 {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ToDoAPI.Interfaces;
+using ToDoAPI.Interfaces.Repository;
+using ToDoAPI.Interfaces.Services;
 using ToDoAPI.Models.Mapper;
 using ToDoAPI.Models.Request;
 using ToDoAPI.Sevices;
@@ -8,19 +9,19 @@ namespace ToDoAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IUserRepository _repository;
         private readonly IPasswordHasherService _passwordHasher;
 
-        public UserController(IUserRepository repository, IPasswordHasherService passwordHasher)
+        public UsersController(IUserRepository repository, IPasswordHasherService passwordHasher)
         {
             _repository = repository;
             _passwordHasher = passwordHasher;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(UserRequest user)
+        public async Task<ActionResult> Create(UserRequest user)
         {
             try
             {
@@ -39,17 +40,17 @@ namespace ToDoAPI.Controllers
                 await _repository.AddAsync(newUser);
 
 
-                return Ok();
+                return CreatedAtAction(nameof(Create),new {user.User},user);
             }
             catch (Exception ex)
             {
 
-                return BadRequest();
+                return Problem("Ocurrio un error inesperado");
             }
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult> GetAll()
         {
             try
             {
@@ -60,7 +61,7 @@ namespace ToDoAPI.Controllers
             catch (Exception)
             {
 
-                throw;
+                return Problem("Ocurrio un error inesperado");
             }
         }
 

@@ -1,4 +1,4 @@
-﻿namespace ToDoAPI.Models;
+﻿namespace ToDoAPI.Entities;
 
 public class User
 {

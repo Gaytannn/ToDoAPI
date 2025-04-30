@@ -1,4 +1,6 @@
-﻿namespace ToDoAPI.Models.Request;
+﻿using ToDoAPI.Entities;
+
+namespace ToDoAPI.Models.Request;
 
 public class TaskItemRequest
 {

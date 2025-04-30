@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ToDoAPI.Models;
+namespace ToDoAPI.Entities;
 
 public class TaskItem
 {
