@@ -18,4 +18,12 @@ public static class TaskMappings
 
         };
     }
+
+    public static void MapTo(this TaskItemRequest request, TaskItem task)
+    {
+        task.Title = request.Title;
+        task.Description = request.Description;
+        task.Priority = request.Priority;
+    }
+
 }

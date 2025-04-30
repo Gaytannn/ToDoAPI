@@ -53,8 +53,11 @@ public class TasksRepository :ITaskRepository
         return await _context.Tasks.FindAsync(id);
     }
 
-    public Task<Guid> UpdateAsync(TaskItem entity)
+    public async Task<Guid> UpdateAsync(TaskItem entity)
     {
-        throw new NotImplementedException();
+        _context.Tasks.Update(entity);
+        await _context.SaveChangesAsync();
+
+        return entity.Id;
     }
 }

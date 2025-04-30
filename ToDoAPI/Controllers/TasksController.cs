@@ -55,7 +55,7 @@ namespace ToDoAPI.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult> GetAll()
         {
             try
             {
@@ -105,6 +105,34 @@ namespace ToDoAPI.Controllers
                 Log.Error(ex, "Ocurrio un error al eliminar la tarea {id}", id);
                 return Problem("Ocurrio un error inesperado");
             }
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task<ActionResult> Update([FromQuery]Guid id, [FromBody] TaskItemRequest request)
+        {
+            try
+            {
+                var task = await _repository.GetByIdAsync(id);
+
+                if (task is null)
+                {
+                    return NotFound("No se encontro la tarea");
+                }
+
+                request.MapTo(task);
+              
+                await _repository.UpdateAsync(task);
+
+
+                return Ok(request);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Ocurrio un error al actualizar la tarea {id} {@TaskItemRequest}",id,request);
+                return Problem("Ocurrio un error inesperado");
+            }
+
         }
 
     }
