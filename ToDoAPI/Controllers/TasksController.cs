@@ -78,5 +78,34 @@ namespace ToDoAPI.Controllers
             }
         }
 
+
+        [Authorize]
+        [HttpDelete]
+        public async Task<ActionResult> Delete([FromQuery]Guid id)
+        {
+            try
+            {
+
+                var task = await _repository.GetByIdAsync(id);
+
+                if (task is null)
+                {
+                    return NotFound("No se encontro la tarea ");
+                }
+
+
+                await _repository.DeleteAsync(task);
+
+
+                return Ok(task.Id);
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Ocurrio un error al eliminar la tarea {id}", id);
+                return Problem("Ocurrio un error inesperado");
+            }
+        }
+
     }
 }

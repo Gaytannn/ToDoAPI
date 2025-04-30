@@ -25,9 +25,14 @@ public class TasksRepository :ITaskRepository
         return entity.Id;
     }
 
-    public Task<Guid> DeleteAsync(Guid id)
+    public async Task<Guid> DeleteAsync(TaskItem entity)
     {
-        throw new NotImplementedException();
+        entity.IsDeleted = true;
+        _context.Tasks.Update(entity);
+        await _context.SaveChangesAsync();
+
+        return entity.Id;
+
     }
 
     public Task<IReadOnlyList<TaskItem>> GetAllAsync(int? offset = null, int? skip = null)
@@ -43,9 +48,9 @@ public class TasksRepository :ITaskRepository
        return await _context.Tasks.Include(t=>t.User).Where(t=>t.UserId==Id).ToListAsync();
     }
 
-    public Task<TaskItem?> GetByIdAsync(Guid id)
+    public async Task<TaskItem?> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await _context.Tasks.FindAsync(id);
     }
 
     public Task<Guid> UpdateAsync(TaskItem entity)

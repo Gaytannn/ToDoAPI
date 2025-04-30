@@ -7,5 +7,5 @@ public interface IRepository<T, R> where T : class
     Task<T?> GetByIdAsync(R id);
     Task<R> AddAsync(T entity);
     Task<R> UpdateAsync(T entity);
-    Task<R> DeleteAsync(R id);
+    Task<R> DeleteAsync(T entity);
 }

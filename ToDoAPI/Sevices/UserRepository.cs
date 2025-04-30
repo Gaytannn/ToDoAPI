@@ -24,7 +24,7 @@ public class UserRepository : IUserRepository
         return entity.Id;
     }
 
-    public Task<Guid> DeleteAsync(Guid id)
+    public Task<Guid> DeleteAsync(User entity)
     {
         throw new NotImplementedException();
     }
