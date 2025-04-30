@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using ToDoAPI.Entities;
 using ToDoAPI.Interfaces.Repository;
 using ToDoAPI.Models.Mapper;
 using ToDoAPI.Models.Request;
@@ -18,7 +20,7 @@ namespace ToDoAPI.Controllers
         private readonly IUserRepository _repositoryUser;
      
 
-        public TasksController(ITaskRepository repository, IUserRepository repositoryUser)
+        public TasksController(ITaskRepository repository, IUserRepository repositoryUser )
         {
             _repository = repository;
             _repositoryUser = repositoryUser;
@@ -40,11 +42,12 @@ namespace ToDoAPI.Controllers
 
                 await _repository.AddAsync(newTask);
 
-                return CreatedAtAction(nameof(TaskItemRequest),new {request.Title},request);
+                return CreatedAtAction(nameof(Create),new {request.Title},request);
             }
             catch (Exception ex)
             {
 
+                Log.Error(ex, "Ocurrio un error al crear la tarea @TaskItemRequest", request);
                 return Problem("Ocurrio un error inesperado");
             }
 
@@ -67,6 +70,9 @@ namespace ToDoAPI.Controllers
             }
             catch (Exception ex)
             {
+
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "Desconocido";
+                Log.Error(ex, "Ocurrió un error al cargar la lista de tareas del empleado {Id}", userId);
 
                 return Problem();
             }

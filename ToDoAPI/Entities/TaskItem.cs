@@ -11,7 +11,7 @@ public class TaskItem
     public Priority Priority { get; set; }
     public DateTime CreatedAt { get; set; }
     public bool IsDeleted { get; set; }
-    public Guid UserId { get; set; }
+    public Guid UserId { get; set; } 
 
     [JsonIgnore]
     public virtual User? User { get; set; } 

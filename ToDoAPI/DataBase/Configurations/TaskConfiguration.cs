@@ -27,6 +27,10 @@ public class TaskConfiguration : IEntityTypeConfiguration<TaskItem>
             .IsRequired();
 
 
+        builder.Property(t => t.UserId)
+            .IsRequired();
+
+
         builder.HasOne(t => t.User)
             .WithMany(t => t.Tasks)
             .HasForeignKey(t => t.UserId)

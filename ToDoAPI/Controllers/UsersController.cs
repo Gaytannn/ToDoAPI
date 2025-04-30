@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using ToDoAPI.Interfaces.Repository;
 using ToDoAPI.Interfaces.Services;
 using ToDoAPI.Models.Mapper;
 using ToDoAPI.Models.Request;
-using ToDoAPI.Sevices;
 
 namespace ToDoAPI.Controllers
 {
@@ -44,7 +44,7 @@ namespace ToDoAPI.Controllers
             }
             catch (Exception ex)
             {
-
+                Log.Error(ex, "Ocurrio un error al crear el usuario @UserRequest",user);
                 return Problem("Ocurrio un error inesperado");
             }
         }
@@ -58,9 +58,9 @@ namespace ToDoAPI.Controllers
 
                 return Ok(users);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Log.Error(ex, "Ocurrio un error al cargar la lista de los usuarios");
                 return Problem("Ocurrio un error inesperado");
             }
         }

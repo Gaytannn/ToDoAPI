@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Text;
 using ToDoAPI.Data;
 using ToDoAPI.Interfaces.Repository;
@@ -10,70 +9,94 @@ using ToDoAPI.Sevices;
 using ToDoAPI.Sevices.Auth;
 using ToDoAPI.Sevices.JWT;
 using ToDoAPI.Sevices.PasswordHasher;
-
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-builder.Services.AddDbContext<ToDoContext>(options =>
-    options.UseInMemoryDatabase("TodoDatabase"));
-
-builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
-
-builder.Services.AddScoped<IAuthRepository, AuthRepository>();
-builder.Services.AddScoped<ITaskRepository, TasksRepository>();
-
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+using Serilog;
 
 
 
-//JWT 
-builder.Services.AddAuthentication(configuration =>
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+
+try
 {
-    configuration.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    configuration.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    var builder = WebApplication.CreateBuilder(args);
+    builder.Services.AddSerilog();
 
-}).AddJwtBearer(configuration =>
-{
-    configuration.RequireHttpsMetadata = false;
-    configuration.SaveToken = true;
-    configuration.TokenValidationParameters = new TokenValidationParameters
+    // Add services to the container.
+
+    builder.Services.AddDbContext<ToDoContext>(options =>
+        options.UseInMemoryDatabase("TodoDatabase"));
+
+    builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+    builder.Services.AddScoped<IAuthService, AuthService>();
+    builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
+
+    builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+    builder.Services.AddScoped<ITaskRepository, TasksRepository>();
+
+
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+
+    builder.Services.AddControllers();
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+
+
+
+    //JWT 
+    builder.Services.AddAuthentication(configuration =>
     {
-        ValidateIssuerSigningKey = true,
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = true,
-        ClockSkew = TimeSpan.Zero,
-        IssuerSigningKey = new SymmetricSecurityKey
-        (
-            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]!)
-        )
-    };
-});
+        configuration.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        configuration.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 
-var app = builder.Build();
+    }).AddJwtBearer(configuration =>
+    {
+        configuration.RequireHttpsMetadata = false;
+        configuration.SaveToken = true;
+        configuration.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero,
+            IssuerSigningKey = new SymmetricSecurityKey
+            (
+                Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]!)
+            )
+        };
+    });
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+
+
+    var app = builder.Build();
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
+
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
