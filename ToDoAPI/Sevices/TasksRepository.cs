@@ -45,7 +45,7 @@ public class TasksRepository :ITaskRepository
 
        var response = await _context.Tasks.ToListAsync();
 
-       return await _context.Tasks.Include(t=>t.User).Where(t=>t.UserId==Id).ToListAsync();
+       return await _context.Tasks.Include(t=>t.User).Where(t=>t.UserId==Id && t.IsDeleted==false).ToListAsync();
     }
 
     public async Task<TaskItem?> GetByIdAsync(Guid id)
