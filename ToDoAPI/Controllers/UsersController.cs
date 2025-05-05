@@ -49,21 +49,7 @@ namespace ToDoAPI.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetAll()
-        {
-            try
-            {
-                var users = await _repository.GetAllAsync();
-
-                return Ok(users);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Ocurrio un error al cargar la lista de los usuarios");
-                return Problem("Ocurrio un error inesperado");
-            }
-        }
+       
 
     }
 }

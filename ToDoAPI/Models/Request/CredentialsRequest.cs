@@ -1,7 +1,3 @@
 ﻿namespace ToDoAPI.Models.Request;
 
-public class CredentialsRequest
-{
-    public string User { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-}
+public record CredentialsRequest(string User, string Password);
